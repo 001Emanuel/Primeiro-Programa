@@ -1,16 +1,15 @@
-const http =  require('http');
-
-
-const hostname = '127.0.0.1'; //Endereço do servidor
-const port  =  3000; // porta do servidor 
-
-const server = http.createServer((req, res) => { // Criando o servidor
-    res.statusCode = 200; // Status ok de resposta
-    res.setHeader("Content-Type", "text/plain");
-    res.end('Ola me chamo Emanuel');
-});
-
-server.listen(port, hostname, () => {
-
-    console.log(`Servidor rodando em http://${hostname}:${port}/`);
+const express=require('express');// determinando a utilização do express
+const app=express();
+const path=require ('path');//endereço de cada rota
+const router=express.Router();//trabalha com as rotas
+router.get('/',function(req,res){
+    res.sendFile(path.join(__dirname+'/index.html'));
 })
+router.get('/about',function(req,res){
+    res.sendFile(path.join(__dirname+'/about.html'));
+})
+
+app.use('/',router);
+app.use('/about',router);
+app.listen(process.env.port||3000);
+console.log("Servidor Rodando");
